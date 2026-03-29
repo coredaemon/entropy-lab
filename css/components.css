@@ -1,0 +1,297 @@
+.card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.35rem;
+  box-shadow: var(--shadow-card);
+}
+
+.card__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.card__hint {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.field-group + .field-group {
+  margin-top: 1.25rem;
+}
+
+.field-group__legend {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.segment-control {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.segment-control--stack {
+  flex-direction: column;
+}
+
+.segment-control__item {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.segment-control--stack .segment-control__item {
+  flex: 1 1 100%;
+}
+
+.segment-control__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+}
+
+.segment-control__label {
+  display: block;
+  text-align: center;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.segment-control__item:hover .segment-control__label {
+  background: var(--color-segment-hover);
+  border-color: var(--color-accent-muted);
+}
+
+.segment-control__input:focus-visible + .segment-control__label {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.segment-control__input:checked + .segment-control__label {
+  background: var(--color-segment-active);
+  border-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn--primary {
+  background: linear-gradient(
+    180deg,
+    var(--color-accent) 0%,
+    var(--color-accent-muted) 100%
+  );
+  color: #0a0c10;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.btn--primary:hover {
+  filter: brightness(1.06);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.btn--secondary {
+  background: var(--color-bg-elevated);
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.btn--secondary:hover {
+  background: var(--color-segment-hover);
+  border-color: var(--color-accent-muted);
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.btn--compact {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.results-placeholder {
+  min-height: 6rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.results-placeholder--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.results-placeholder:not(.results-placeholder--empty) {
+  min-height: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.result-preview {
+  width: 100%;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  text-align: left;
+}
+
+.result-preview__title {
+  margin: 0 0 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.result-preview__list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 0.35rem 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  align-items: baseline;
+}
+
+.result-preview__list dt {
+  margin: 0;
+  padding: 0.35rem 0;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.result-preview__list dd {
+  margin: 0;
+  padding: 0.35rem 0;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.result-preview__list dt:nth-last-of-type(1),
+.result-preview__list dd:nth-last-of-type(1) {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.result-preview--error {
+  border-color: var(--color-accent-muted);
+}
+
+.result-preview__error-text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.password-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.password-card {
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  text-align: left;
+}
+
+.password-card__row--main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+
+.password-card__value {
+  flex: 1 1 12rem;
+  display: block;
+  padding: 0.5rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--color-border);
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+    monospace;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  word-break: break-all;
+  color: var(--color-text);
+}
+
+.password-card__meta {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.password-card__meta dt {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.password-card__meta dd {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.assumptions-list {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.assumptions-list li + li {
+  margin-top: 0.35rem;
+}

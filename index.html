@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EntropyLab</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="header">
+        <h1 class="header__title">EntropyLab</h1>
+        <p class="header__subtitle">
+          Генерация паролей и фраз с расчётом энтропии
+        </p>
+      </header>
+
+      <main class="main">
+        <section class="card" aria-labelledby="mode-heading">
+          <h2 id="mode-heading" class="card__title">Режим</h2>
+          <div
+            class="segment-control"
+            role="radiogroup"
+            aria-label="Режим работы"
+          >
+            <label class="segment-control__item">
+              <input
+                type="radio"
+                name="mode"
+                value="normal"
+                class="segment-control__input"
+                checked
+              />
+              <span class="segment-control__label">Обычный</span>
+            </label>
+            <label class="segment-control__item">
+              <input
+                type="radio"
+                name="mode"
+                value="extended"
+                class="segment-control__input"
+              />
+              <span class="segment-control__label">Расширенный</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="type-heading">
+          <h2 id="type-heading" class="card__title">Тип</h2>
+          <div
+            class="segment-control"
+            role="radiogroup"
+            aria-label="Тип вывода"
+          >
+            <label class="segment-control__item">
+              <input
+                type="radio"
+                name="output-type"
+                value="password"
+                class="segment-control__input"
+                checked
+              />
+              <span class="segment-control__label">Символьный пароль</span>
+            </label>
+            <label class="segment-control__item">
+              <input
+                type="radio"
+                name="output-type"
+                value="passphrase"
+                class="segment-control__input"
+              />
+              <span class="segment-control__label">Passphrase</span>
+            </label>
+          </div>
+        </section>
+
+        <section
+          class="card card--params"
+          aria-labelledby="params-heading"
+          data-params-for="normal"
+        >
+          <h2 id="params-heading" class="card__title">Параметры</h2>
+          <p id="params-hint" class="card__hint">Обычный режим</p>
+
+          <fieldset class="field-group">
+            <legend class="field-group__legend">Уровень</legend>
+            <div
+              class="segment-control segment-control--stack"
+              role="radiogroup"
+              aria-label="Уровень энтропии"
+            >
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="level"
+                  value="minimal"
+                  class="segment-control__input"
+                />
+                <span class="segment-control__label"
+                  >Минимальный (~68 бит)</span
+                >
+              </label>
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="level"
+                  value="optimal"
+                  class="segment-control__input"
+                  checked
+                />
+                <span class="segment-control__label"
+                  >Оптимальный (~80 бит)</span
+                >
+              </label>
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="level"
+                  value="maximum"
+                  class="segment-control__input"
+                />
+                <span class="segment-control__label"
+                  >Максимальный (~128 бит)</span
+                >
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group">
+            <legend class="field-group__legend">Количество</legend>
+            <div
+              class="segment-control"
+              role="radiogroup"
+              aria-label="Количество вариантов"
+            >
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="count"
+                  value="3"
+                  class="segment-control__input"
+                />
+                <span class="segment-control__label">3</span>
+              </label>
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="count"
+                  value="5"
+                  class="segment-control__input"
+                  checked
+                />
+                <span class="segment-control__label">5</span>
+              </label>
+              <label class="segment-control__item">
+                <input
+                  type="radio"
+                  name="count"
+                  value="10"
+                  class="segment-control__input"
+                />
+                <span class="segment-control__label">10</span>
+              </label>
+            </div>
+          </fieldset>
+        </section>
+
+        <div class="actions">
+          <button type="button" class="btn btn--primary" id="btn-generate">
+            Сгенерировать
+          </button>
+        </div>
+
+        <section class="card card--results" aria-labelledby="results-heading">
+          <h2 id="results-heading" class="card__title">Варианты</h2>
+          <div
+            id="results-container"
+            class="results-placeholder results-placeholder--empty"
+            aria-live="polite"
+          ></div>
+        </section>
+
+        <section class="card card--assumptions" aria-labelledby="assumptions-heading">
+          <h2 id="assumptions-heading" class="card__title">Допущения</h2>
+          <ul class="assumptions-list">
+            <li>используется криптографически стойкий генератор</li>
+            <li>символы выбираются независимо</li>
+            <li>распределение равномерное</li>
+            <li>модель полного перебора</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
