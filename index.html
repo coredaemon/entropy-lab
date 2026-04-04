@@ -2,198 +2,469 @@
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>EntropyLab</title>
-    <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/theme.css" />
-    <link rel="stylesheet" href="css/layout.css" />
-    <link rel="stylesheet" href="css/components.css" />
+    <meta name="theme-color" content="#e6eaf4" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c0e14" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="EntropyLab" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="css/app.css" />
   </head>
-  <body>
-    <div class="page">
-      <header class="header">
-        <h1 class="header__title">EntropyLab</h1>
-        <p class="header__subtitle">
-          Генерация паролей и фраз с расчётом энтропии
-        </p>
-      </header>
+  <body class="app">
+    <header class="app-topbar">
+      <div class="app-topbar__inner">
+        <div class="app-topbar__brand">
+          <h1 class="app-brand" data-i18n="app.title">EntropyLab</h1>
+          <p class="app-tagline" data-i18n="app.subtitle"></p>
+        </div>
 
-      <main class="main">
-        <section class="card" aria-labelledby="mode-heading">
-          <h2 id="mode-heading" class="card__title">Режим</h2>
-          <div
-            class="segment-control"
-            role="radiogroup"
-            aria-label="Режим работы"
-          >
-            <label class="segment-control__item">
-              <input
-                type="radio"
-                name="mode"
-                value="normal"
-                class="segment-control__input"
-                checked
-              />
-              <span class="segment-control__label">Обычный</span>
-            </label>
-            <label class="segment-control__item">
-              <input
-                type="radio"
-                name="mode"
-                value="extended"
-                class="segment-control__input"
-              />
-              <span class="segment-control__label">Расширенный</span>
-            </label>
-          </div>
-        </section>
-
-        <section class="card" aria-labelledby="type-heading">
-          <h2 id="type-heading" class="card__title">Тип</h2>
-          <div
-            class="segment-control"
-            role="radiogroup"
-            aria-label="Тип вывода"
-          >
-            <label class="segment-control__item">
-              <input
-                type="radio"
-                name="output-type"
-                value="password"
-                class="segment-control__input"
-                checked
-              />
-              <span class="segment-control__label">Символьный пароль</span>
-            </label>
-            <label class="segment-control__item">
-              <input
-                type="radio"
-                name="output-type"
-                value="passphrase"
-                class="segment-control__input"
-              />
-              <span class="segment-control__label">Passphrase</span>
-            </label>
-          </div>
-        </section>
-
-        <section
-          class="card card--params"
-          aria-labelledby="params-heading"
-          data-params-for="normal"
+        <button
+          type="button"
+          class="app-topbar__settings-open"
+          data-open-app-settings
+          aria-haspopup="dialog"
+          aria-controls="app-settings-dialog"
+          data-i18n-aria="settings.openAria"
+          data-i18n-title="settings.titleShort"
         >
-          <h2 id="params-heading" class="card__title">Параметры</h2>
-          <p id="params-hint" class="card__hint">Обычный режим</p>
+          <span class="app-topbar__settings-icon" aria-hidden="true"></span>
+        </button>
 
-          <fieldset class="field-group">
-            <legend class="field-group__legend">Уровень</legend>
-            <div
-              class="segment-control segment-control--stack"
-              role="radiogroup"
-              aria-label="Уровень энтропии"
-            >
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="level"
-                  value="minimal"
-                  class="segment-control__input"
-                />
-                <span class="segment-control__label"
-                  >Минимальный (~68 бит)</span
-                >
-              </label>
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="level"
-                  value="optimal"
-                  class="segment-control__input"
-                  checked
-                />
-                <span class="segment-control__label"
-                  >Оптимальный (~80 бит)</span
-                >
-              </label>
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="level"
-                  value="maximum"
-                  class="segment-control__input"
-                />
-                <span class="segment-control__label"
-                  >Максимальный (~128 бит)</span
-                >
-              </label>
-            </div>
-          </fieldset>
+        <section class="app-topbar__prefs app-topbar__prefs--desktop" aria-labelledby="prefs-heading">
+          <h2 id="prefs-heading" class="visually-hidden" data-i18n="settings.titleShort">
+            Оформление
+          </h2>
 
-          <fieldset class="field-group">
-            <legend class="field-group__legend">Количество</legend>
+          <div class="app-topbar__pref">
+            <span class="field-label" data-i18n="settings.langLabel">Язык</span>
             <div
-              class="segment-control"
+              class="segmented segmented--3 segmented--ui-lang"
               role="radiogroup"
-              aria-label="Количество вариантов"
+              data-i18n-aria="settings.langAria"
             >
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="count"
-                  value="3"
-                  class="segment-control__input"
-                />
-                <span class="segment-control__label">3</span>
-              </label>
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="count"
-                  value="5"
-                  class="segment-control__input"
-                  checked
-                />
-                <span class="segment-control__label">5</span>
-              </label>
-              <label class="segment-control__item">
-                <input
-                  type="radio"
-                  name="count"
-                  value="10"
-                  class="segment-control__input"
-                />
-                <span class="segment-control__label">10</span>
-              </label>
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="ru" />
+                <span class="segmented__text" data-i18n="settings.langRuShort">RU</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="en" />
+                <span class="segmented__text" data-i18n="settings.langEnShort">EN</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="auto" checked />
+                <span class="segmented__text" data-i18n="settings.langAutoShort">Auto</span></label
+              >
             </div>
-          </fieldset>
+          </div>
+
+          <div class="app-topbar__pref">
+            <span class="field-label" data-i18n="settings.themeLabel">Тема</span>
+            <div
+              class="segmented segmented--3 segmented--ui-theme"
+              role="radiogroup"
+              data-i18n-aria="settings.themeAria"
+            >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="light" />
+                <span class="segmented__text" data-i18n="settings.themeLightShort">Light</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="dark" />
+                <span class="segmented__text" data-i18n="settings.themeDarkShort">Dark</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="system" checked />
+                <span class="segmented__text" data-i18n="settings.themeSystemShort">Auto</span></label
+              >
+            </div>
+          </div>
+
+          <div class="app-topbar__pref">
+            <span class="field-label" data-i18n="settings.textSizeLabel">Читаемость</span>
+            <div
+              class="segmented segmented--3 segmented--ui-text"
+              role="radiogroup"
+              data-i18n-aria="settings.textSizeAria"
+            >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="small" />
+                <span class="segmented__text" data-i18n="settings.textSizeSmallShort">S</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="medium" checked />
+                <span class="segmented__text" data-i18n="settings.textSizeMediumShort">M</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="large" />
+                <span class="segmented__text" data-i18n="settings.textSizeLargeShort">L</span></label
+              >
+            </div>
+          </div>
         </section>
+      </div>
+    </header>
 
-        <div class="actions">
-          <button type="button" class="btn btn--primary" id="btn-generate">
-            Сгенерировать
+    <dialog id="app-settings-dialog" class="app-settings-dialog" aria-labelledby="app-settings-dialog-title">
+      <div class="app-settings-dialog__surface">
+        <div class="app-settings-dialog__head">
+          <h2 id="app-settings-dialog-title" class="app-settings-dialog__title" data-i18n="settings.dialogTitle">
+            Оформление
+          </h2>
+          <button
+            type="button"
+            class="btn btn--ghost app-settings-dialog__close"
+            data-close-app-settings
+            data-i18n="settings.done"
+          >
+            Готово
           </button>
         </div>
 
-        <section class="card card--results" aria-labelledby="results-heading">
-          <h2 id="results-heading" class="card__title">Варианты</h2>
-          <div
-            id="results-container"
-            class="results-placeholder results-placeholder--empty"
-            aria-live="polite"
-          ></div>
-        </section>
+        <div class="app-settings-dialog__body">
+          <section class="app-settings-dialog__pref" aria-labelledby="prefs-dialog-lang">
+            <h3 id="prefs-dialog-lang" class="field-label" data-i18n="settings.langLabel">Язык</h3>
+            <div
+              class="segmented segmented--3 segmented--ui-lang"
+              role="radiogroup"
+              data-i18n-aria="settings.langAria"
+            >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="ru" />
+                <span class="segmented__text" data-i18n="settings.langRuShort">RU</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="en" />
+                <span class="segmented__text" data-i18n="settings.langEnShort">EN</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-language" value="auto" />
+                <span class="segmented__text" data-i18n="settings.langAutoShort">Auto</span></label
+              >
+            </div>
+          </section>
 
-        <section class="card card--assumptions" aria-labelledby="assumptions-heading">
-          <h2 id="assumptions-heading" class="card__title">Допущения</h2>
-          <ul class="assumptions-list">
-            <li>используется криптографически стойкий генератор</li>
-            <li>символы выбираются независимо</li>
-            <li>распределение равномерное</li>
-            <li>модель полного перебора</li>
-          </ul>
+          <section class="app-settings-dialog__pref" aria-labelledby="prefs-dialog-theme">
+            <h3 id="prefs-dialog-theme" class="field-label" data-i18n="settings.themeLabel">Тема</h3>
+            <div
+              class="segmented segmented--3 segmented--ui-theme"
+              role="radiogroup"
+              data-i18n-aria="settings.themeAria"
+            >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="light" />
+                <span class="segmented__text" data-i18n="settings.themeLightShort">Light</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="dark" />
+                <span class="segmented__text" data-i18n="settings.themeDarkShort">Dark</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-theme" value="system" />
+                <span class="segmented__text" data-i18n="settings.themeSystemShort">Auto</span></label
+              >
+            </div>
+          </section>
+
+          <section class="app-settings-dialog__pref" aria-labelledby="prefs-dialog-text">
+            <h3 id="prefs-dialog-text" class="field-label" data-i18n="settings.textSizeLabel">Читаемость</h3>
+            <div
+              class="segmented segmented--3 segmented--ui-text"
+              role="radiogroup"
+              data-i18n-aria="settings.textSizeAria"
+            >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="small" />
+                <span class="segmented__text" data-i18n="settings.textSizeSmallShort">S</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="medium" />
+                <span class="segmented__text" data-i18n="settings.textSizeMediumShort">M</span></label
+              >
+              <label class="segmented__option"
+                ><input type="radio" name="ui-text-size" value="large" />
+                <span class="segmented__text" data-i18n="settings.textSizeLargeShort">L</span></label
+              >
+            </div>
+          </section>
+        </div>
+      </div>
+    </dialog>
+
+    <main class="app-main">
+      <div class="app-main-inner">
+        <div class="workspace-card">
+          <div class="workspace-card__head">
+            <h2 class="workspace-card__title" data-i18n="section.workspace">Генерация</h2>
+          </div>
+
+          <div class="workspace-compose">
+            <div class="workspace-toolbar">
+              <div class="workspace-toolbar__bar workspace-toolbar__bar--top">
+                <div class="workspace-toolbar__controls">
+                  <div class="control-group">
+                    <span class="field-label" id="mode-heading" data-i18n="mode.title">Режим</span>
+                    <div
+                      class="segmented segmented--2 segmented--mode"
+                      role="radiogroup"
+                      aria-labelledby="mode-heading"
+                      data-i18n-aria="mode.aria"
+                    >
+                      <label class="segmented__option"
+                        ><input type="radio" name="mode" value="normal" checked />
+                        <span class="segmented__text" data-i18n="mode.normal">Обычный</span></label
+                      >
+                      <label class="segmented__option"
+                        ><input type="radio" name="mode" value="extended" />
+                        <span class="segmented__text" data-i18n="mode.extended">Расширенный</span></label
+                      >
+                    </div>
+                  </div>
+
+                  <div class="control-group">
+                    <span class="field-label" id="type-heading" data-i18n="type.title">Тип</span>
+                    <div
+                      class="segmented segmented--2 segmented--output-type"
+                      role="radiogroup"
+                      aria-labelledby="type-heading"
+                      data-i18n-aria="type.aria"
+                    >
+                      <label class="segmented__option"
+                        ><input type="radio" name="output-type" value="password" checked />
+                        <span class="segmented__text" data-i18n="type.password">Символьный пароль</span></label
+                      >
+                      <label class="segmented__option"
+                        ><input type="radio" name="output-type" value="passphrase" />
+                        <span class="segmented__text" data-i18n="type.passphrase">Passphrase</span></label
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <section class="params-block" aria-labelledby="params-heading">
+            <h3 id="params-heading" data-i18n="params.title">Параметры</h3>
+            <p id="params-hint" class="params-hint"></p>
+
+            <div class="params-grid">
+              <div class="params-grid__primary">
+                <div id="params-panel-normal" data-params-panel="normal">
+                  <fieldset>
+                    <legend data-i18n="level.legend">Уровень</legend>
+                    <div
+                      class="segmented segmented--3 segmented--level"
+                      role="radiogroup"
+                      data-i18n-aria="level.legend"
+                    >
+                      <label class="segmented__option"
+                        ><input type="radio" name="level" value="minimal" /> <span class="segmented__text"></span
+                      ></label>
+                      <label class="segmented__option"
+                        ><input type="radio" name="level" value="optimal" checked />
+                        <span class="segmented__text"></span
+                      ></label>
+                      <label class="segmented__option"
+                        ><input type="radio" name="level" value="maximum" /> <span class="segmented__text"></span
+                      ></label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div id="params-panel-extended" data-params-panel="extended" hidden>
+                  <div id="extended-password-panel" data-extended-for="password" hidden>
+                    <fieldset>
+                      <legend data-i18n="adv.targetEntropy">Целевая энтропия</legend>
+                      <div class="field-row field-row--entropy">
+                        <label>
+                          <input
+                            type="range"
+                            id="adv-pw-entropy-range"
+                            min="40"
+                            max="256"
+                            step="1"
+                            data-i18n-aria="adv.entropyRangeAriaPw"
+                          />
+                        </label>
+                        <label>
+                          <input
+                            type="number"
+                            id="adv-pw-entropy-input"
+                            class="adv-entropy-input"
+                            min="40"
+                            max="256"
+                            step="1"
+                            inputmode="numeric"
+                            data-i18n-aria="adv.entropyNumberAriaPw"
+                          />
+                        </label>
+                        <span data-i18n="adv.bitsSuffix" aria-hidden="true">бит</span>
+                      </div>
+                    </fieldset>
+
+                    <fieldset>
+                      <legend data-i18n="adv.symbolClasses">Классы символов</legend>
+                      <div class="checkbox-grid">
+                        <label
+                          ><input type="checkbox" id="adv-pw-lowercase" data-adv-password="includeLowercase" />
+                          <span data-i18n="adv.lowercase"></span
+                        ></label>
+                        <label
+                          ><input type="checkbox" id="adv-pw-uppercase" data-adv-password="includeUppercase" />
+                          <span data-i18n="adv.uppercase"></span
+                        ></label>
+                        <label
+                          ><input type="checkbox" id="adv-pw-digits" data-adv-password="includeDigits" />
+                          <span data-i18n="adv.digits"></span
+                        ></label>
+                        <label
+                          ><input type="checkbox" id="adv-pw-symbols" data-adv-password="includeSymbols" />
+                          <span data-i18n="adv.symbols"></span
+                        ></label>
+                      </div>
+                    </fieldset>
+
+                    <fieldset>
+                      <div class="checkbox-grid">
+                        <label
+                          ><input
+                            type="checkbox"
+                            id="adv-pw-exclude-similar"
+                            data-adv-password="excludeSimilar"
+                          />
+                          <span data-i18n="adv.excludeSimilar"></span
+                        ></label>
+                        <label
+                          ><input
+                            type="checkbox"
+                            id="adv-pw-require-all"
+                            data-adv-password="requireAllSelectedClasses"
+                          />
+                          <span data-i18n="adv.requireAll"></span
+                        ></label>
+                      </div>
+                    </fieldset>
+                  </div>
+
+                  <div id="extended-passphrase-panel" data-extended-for="passphrase" hidden>
+                    <fieldset>
+                      <legend data-i18n="adv.targetEntropy">Целевая энтропия</legend>
+                      <div class="field-row field-row--entropy">
+                        <label>
+                          <input
+                            type="range"
+                            id="adv-ph-entropy-range"
+                            min="40"
+                            max="256"
+                            step="1"
+                            data-i18n-aria="adv.entropyRangeAriaPh"
+                          />
+                        </label>
+                        <label>
+                          <input
+                            type="number"
+                            id="adv-ph-entropy-input"
+                            class="adv-entropy-input"
+                            min="40"
+                            max="256"
+                            step="1"
+                            inputmode="numeric"
+                            data-i18n-aria="adv.entropyNumberAriaPh"
+                          />
+                        </label>
+                        <span data-i18n="adv.bitsSuffix" aria-hidden="true">бит</span>
+                      </div>
+                    </fieldset>
+
+                    <fieldset>
+                      <legend data-i18n="adv.separatorLegend">Разделитель слов</legend>
+                      <select id="adv-ph-separator" data-i18n-aria="adv.separatorAria">
+                        <option value="-" data-i18n="adv.separatorHyphen"></option>
+                        <option value="_" data-i18n="adv.separatorUnderscore"></option>
+                        <option value=" " data-i18n="adv.separatorSpace"></option>
+                      </select>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+
+              <fieldset class="params-grid__aside">
+                <legend data-i18n="count.legend">Количество</legend>
+                <div
+                  class="segmented segmented--3 segmented--count"
+                  role="radiogroup"
+                  data-i18n-aria="count.aria"
+                >
+                  <label class="segmented__option"
+                    ><input type="radio" name="count" value="3" /> <span class="segmented__text">3</span></label
+                  >
+                  <label class="segmented__option"
+                    ><input type="radio" name="count" value="5" checked />
+                    <span class="segmented__text">5</span></label
+                  >
+                  <label class="segmented__option"
+                    ><input type="radio" name="count" value="10" /> <span class="segmented__text">10</span></label
+                  >
+                </div>
+              </fieldset>
+            </div>
+          </section>
+
+          <div class="workspace-toolbar__cta workspace-toolbar__cta--compose">
+            <button type="button" id="btn-generate" class="btn btn--primary" data-i18n="actions.generate">
+              Сгенерировать
+            </button>
+          </div>
+          </div>
+
+          <section class="results-section" aria-labelledby="results-heading">
+            <h2 id="results-heading" class="results-section__title" data-i18n="result.title">Результат</h2>
+            <div id="results-container" class="results-container" aria-live="polite"></div>
+          </section>
+        </div>
+
+        <section id="model-info" class="secondary-zone" aria-labelledby="secondary-heading">
+          <h2 id="secondary-heading" class="visually-hidden" data-i18n="section.secondary">
+            Модель и допущения
+          </h2>
+          <div id="advanced-model-block"></div>
+          <div id="advanced-compare-block"></div>
+          <div id="advanced-orient-block"></div>
+
+          <section class="secondary-zone__assumptions" aria-labelledby="assumptions-heading">
+            <h3 id="assumptions-heading" data-i18n="assumptions.title">Допущения</h3>
+            <ul>
+              <li data-i18n="assumptions.item1"></li>
+              <li data-i18n="assumptions.item2"></li>
+              <li data-i18n="assumptions.item3"></li>
+              <li data-i18n="assumptions.item4"></li>
+            </ul>
+          </section>
         </section>
-      </main>
-    </div>
+      </div>
+    </main>
+
+    <footer class="app-footer" data-i18n-aria="footer.navAria">
+      <div class="app-footer__inner">
+        <p class="app-footer__privacy" data-i18n="footer.localPrivacy">
+          Локальная генерация, без отправки данных
+        </p>
+        <p class="app-footer__meta">
+          <span data-i18n="footer.versionLabel">Версия</span>
+          <span data-i18n="footer.version">1.0.0</span>
+        </p>
+        <a
+          class="app-footer__link"
+          href="https://github.com/coredaemon/entropy-lab"
+          rel="noopener noreferrer"
+          target="_blank"
+          data-i18n="footer.linkGithub"
+          >GitHub</a
+        >
+      </div>
+    </footer>
 
     <script type="module" src="js/app.js"></script>
   </body>
