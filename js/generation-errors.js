@@ -17,6 +17,12 @@ export function formatPasswordGenerationError(err) {
     return t("errors.genLengthVsClasses", { length: match[1], k: match[2] });
   }
   if (m.startsWith("Несоответствие размера")) return t("errors.genInternal");
+  if (m.includes("пуст после исключения") || m.includes("Класс спецсимволов пуст")) {
+    return t("errors.genEmptyClass");
+  }
+  if (m.includes("Нет допустимых паролей при заданных")) {
+    return t("errors.genConstrainedNone");
+  }
   return t("errors.passwordGen");
 }
 

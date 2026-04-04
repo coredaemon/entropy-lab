@@ -122,6 +122,8 @@ export const STRINGS = {
     "math.rowRequiredLen": "Требуемая длина L",
     "math.rowActualEntropy": "Фактическая энтропия",
     "math.rowModelEntropy": "Фактическая энтропия модели",
+    "math.rowModelEntropyExact":
+      "Энтропия (точное число допустимых строк с обязательными классами)",
     "math.rowModel": "Модель",
     "math.rowSeparator": "Разделитель",
     "math.rowDictionarySize": "Размер словаря",
@@ -163,12 +165,20 @@ export const STRINGS = {
     "errors.advPwTarget": "Некорректная целевая энтропия",
     "errors.advPwRequireAll":
       "При «обязательны все классы» длина {requiredLength} меньше числа классов ({classCount}) — увеличьте энтропию или ослабьте требования",
+    "errors.advPwEmptyClass":
+      "Один из включённых классов символов пуст после исключения похожих — измените настройки",
+    "errors.advPwConstrainedZero":
+      "При текущих длине и классах нет ни одной допустимой строки — ослабьте ограничения",
 
     "errors.genEmptyAlphabet":
       "Алфавит пуст: включите хотя бы один класс символов",
     "errors.genNoClasses": "Нет доступных классов символов",
     "errors.genLengthVsClasses":
       "Недостаточная длина пароля ({length}) для покрытия всех выбранных классов ({k})",
+    "errors.genEmptyClass":
+      "Класс символов пуст после исключения похожих — измените настройки",
+    "errors.genConstrainedNone":
+      "Нет допустимых паролей при заданных длине и обязательных классах",
     "errors.genInternal": "Внутренняя ошибка генератора",
   },
 
@@ -290,6 +300,8 @@ export const STRINGS = {
     "math.rowRequiredLen": "Required length L",
     "math.rowActualEntropy": "Actual entropy",
     "math.rowModelEntropy": "Model actual entropy",
+    "math.rowModelEntropyExact":
+      "Entropy (exact count of strings with required classes)",
     "math.rowModel": "Model",
     "math.rowSeparator": "Separator",
     "math.rowDictionarySize": "Dictionary size",
@@ -331,11 +343,19 @@ export const STRINGS = {
     "errors.advPwTarget": "Invalid target entropy",
     "errors.advPwRequireAll":
       "With “require all classes”, length {requiredLength} is less than the number of classes ({classCount}) — raise entropy or relax constraints",
+    "errors.advPwEmptyClass":
+      "An enabled character class is empty after similar exclusions — adjust settings",
+    "errors.advPwConstrainedZero":
+      "No valid strings exist for the current length and classes — relax constraints",
 
     "errors.genEmptyAlphabet": "Alphabet is empty: enable at least one character class",
     "errors.genNoClasses": "No symbol classes available",
     "errors.genLengthVsClasses":
       "Password length ({length}) is too small to cover all selected classes ({k})",
+    "errors.genEmptyClass":
+      "A character class is empty after similar exclusions — adjust settings",
+    "errors.genConstrainedNone":
+      "No valid passwords for the chosen length and required classes",
     "errors.genInternal": "Internal generator error",
   },
 };

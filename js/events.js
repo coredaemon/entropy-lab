@@ -14,7 +14,7 @@ import {
 import { renderAll } from "./ui.js";
 import { CONFIG } from "./config.js";
 import { generatePasswordBatch } from "./generators/password-generator.js";
-import { calculatePasswordEntropy } from "./math/entropy.js";
+import { getPasswordBatchEntropyBits } from "./math/advanced-model.js";
 import { generatePassphraseBatch } from "./generators/phrase-generator.js";
 import { copyTextToClipboard } from "./clipboard.js";
 import {
@@ -85,7 +85,7 @@ function runGenerate() {
       options,
       state.count,
     );
-    const entropy = calculatePasswordEntropy(length, alphabetSize);
+    const entropy = getPasswordBatchEntropyBits(options, length, alphabetSize);
     setPasswordBatch({ passwords, length, alphabetSize, entropy });
   } catch (err) {
     setGenerationError(formatPasswordGenerationError(err));

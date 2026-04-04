@@ -71,6 +71,10 @@ function formatAdvancedPasswordError(err) {
       classCount: err.classCount,
     });
   }
+  if (err.code === "ADV_PW_EMPTY_CLASS") return t("errors.advPwEmptyClass");
+  if (err.code === "ADV_PW_CONSTRAINED_ZERO") {
+    return t("errors.advPwConstrainedZero");
+  }
   return "";
 }
 
@@ -116,13 +120,14 @@ function buildPasswordMathCard() {
       `;
     }
 
+    const entropyLabel =
+      m.usesExactConstrainedEntropy
+        ? t("math.rowModelEntropyExact")
+        : t("math.rowModelEntropy");
     rows.push(
       [t("math.rowAlphabetN"), String(m.alphabetSize)],
       [t("math.rowRequiredLen"), String(m.requiredLength)],
-      [
-        t("math.rowModelEntropy"),
-        `${formatEntropyOneDecimal(m.actualEntropy)} ${bitsSuffix()}`,
-      ],
+      [entropyLabel, `${formatEntropyOneDecimal(m.actualEntropy)} ${bitsSuffix()}`],
     );
 
     return `
@@ -376,13 +381,16 @@ function renderAdvancedModelBlock(el) {
         </section>`;
       return;
     }
+    const entropyLabelAdv = m.usesExactConstrainedEntropy
+      ? t("math.rowModelEntropyExact")
+      : t("math.rowModelEntropy");
     el.innerHTML = `
       <section class="info-panel">
         <h3>${escapeHtml(t("adv.modelTitle"))}</h3>
         <dl class="descr-list">
           <dt>${escapeHtml(t("math.rowAlphabetN"))}</dt><dd>${escapeHtml(String(m.alphabetSize))}</dd>
           <dt>${escapeHtml(t("math.rowRequiredLen"))}</dt><dd>${escapeHtml(String(m.requiredLength))}</dd>
-          <dt>${escapeHtml(t("math.rowModelEntropy"))}</dt><dd>${escapeHtml(formatEntropyOneDecimal(m.actualEntropy))} ${escapeHtml(t("math.bitsUnit"))}</dd>
+          <dt>${escapeHtml(entropyLabelAdv)}</dt><dd>${escapeHtml(formatEntropyOneDecimal(m.actualEntropy))} ${escapeHtml(t("math.bitsUnit"))}</dd>
         </dl>
       </section>`;
     return;

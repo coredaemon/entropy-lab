@@ -3,7 +3,12 @@
  */
 
 import { CONFIG } from "../config.js";
+import { buildPasswordClassArrays } from "../generators/password-generator.js";
 import { getAlphabetSize } from "./alphabet.js";
+import {
+  buildConstrainedWaysTable,
+  constrainedEntropyBits,
+} from "./constrained-count.js";
 import {
   calculateLengthForTargetEntropy,
   calculatePasswordEntropy,
@@ -43,12 +48,27 @@ export function countPasswordClasses(options) {
 
 /**
  * Коды ошибок модели (тексты для UI — в i18n).
- * @typedef {{ code: "ADV_PW_ALPHABET" } | { code: "ADV_PW_TARGET" } | { code: "ADV_PW_REQUIRE_ALL", requiredLength: number, classCount: number }} AdvancedPasswordError
+ * @typedef {{ code: "ADV_PW_ALPHABET" } | { code: "ADV_PW_TARGET" } | { code: "ADV_PW_REQUIRE_ALL", requiredLength: number, classCount: number } | { code: "ADV_PW_EMPTY_CLASS" } | { code: "ADV_PW_CONSTRAINED_ZERO" }} AdvancedPasswordError
  */
 
 /**
+ * Энтропия для отображения после генерации (совпадает с карточкой «Расчёт» в constrained-режиме).
+ */
+export function getPasswordBatchEntropyBits(options, length, alphabetSize) {
+  if (!options.requireAllSelectedClasses) {
+    return calculatePasswordEntropy(length, alphabetSize);
+  }
+  try {
+    const classArrays = buildPasswordClassArrays(options);
+    return constrainedEntropyBits(length, classArrays.map((a) => a.length));
+  } catch {
+    return calculatePasswordEntropy(length, alphabetSize);
+  }
+}
+
+/**
  * @param {object} passwordAdvanced — поля как в state.advanced.password (без лишнего)
- * @returns {{ ok: true, alphabetSize: number, requiredLength: number, actualEntropy: number, classCount: number } | { ok: false, error: AdvancedPasswordError }}
+ * @returns {{ ok: true, alphabetSize: number, requiredLength: number, actualEntropy: number, classCount: number, usesExactConstrainedEntropy: boolean } | { ok: false, error: AdvancedPasswordError }}
  */
 export function getAdvancedPasswordMetrics(passwordAdvanced) {
   const opts = {
@@ -58,8 +78,6 @@ export function getAdvancedPasswordMetrics(passwordAdvanced) {
     includeSymbols: passwordAdvanced.includeSymbols,
     excludeSimilar: passwordAdvanced.excludeSimilar,
   };
-
-  const classCount = countPasswordClasses(opts);
 
   const alphabetSize = getAlphabetSize(opts);
   if (alphabetSize <= 1) {
@@ -80,7 +98,22 @@ export function getAdvancedPasswordMetrics(passwordAdvanced) {
     return { ok: false, error: { code: "ADV_PW_TARGET" } };
   }
 
-  if (passwordAdvanced.requireAllSelectedClasses && classCount > 0) {
+  if (passwordAdvanced.requireAllSelectedClasses) {
+    let classArrays;
+    try {
+      classArrays = buildPasswordClassArrays(opts);
+    } catch (e) {
+      if (e instanceof RangeError) {
+        return { ok: false, error: { code: "ADV_PW_EMPTY_CLASS" } };
+      }
+      throw e;
+    }
+
+    const classCount = classArrays.length;
+    if (classCount === 0) {
+      return { ok: false, error: { code: "ADV_PW_ALPHABET" } };
+    }
+
     if (requiredLength < classCount) {
       return {
         ok: false,
@@ -91,8 +124,25 @@ export function getAdvancedPasswordMetrics(passwordAdvanced) {
         },
       };
     }
+
+    const classSizes = classArrays.map((a) => a.length);
+    const { ways } = buildConstrainedWaysTable(requiredLength, classSizes);
+    if (ways === 0n) {
+      return { ok: false, error: { code: "ADV_PW_CONSTRAINED_ZERO" } };
+    }
+
+    const actualEntropy = constrainedEntropyBits(requiredLength, classSizes);
+    return {
+      ok: true,
+      alphabetSize,
+      requiredLength,
+      actualEntropy,
+      classCount,
+      usesExactConstrainedEntropy: true,
+    };
   }
 
+  const classCount = countPasswordClasses(opts);
   const actualEntropy = calculatePasswordEntropy(requiredLength, alphabetSize);
   return {
     ok: true,
@@ -100,6 +150,7 @@ export function getAdvancedPasswordMetrics(passwordAdvanced) {
     requiredLength,
     actualEntropy,
     classCount,
+    usesExactConstrainedEntropy: false,
   };
 }
 
